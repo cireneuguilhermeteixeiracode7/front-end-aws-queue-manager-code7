@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
-import { DebtRegisterComponent } from '../../debt-register/debt-register.component';
+import { ManagerComponent } from '../../manager/manager.component';
 import { ClientsComponent } from '../../clients/clients.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -40,7 +40,7 @@ import { WebsocketProvider } from '../../../providers/websocket';
     MatTooltipModule,
   ],
   declarations: [
-    DebtRegisterComponent,
+    ManagerComponent,
     ClientsComponent,
   ],
   providers: [

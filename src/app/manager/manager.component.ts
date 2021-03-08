@@ -13,11 +13,11 @@ import { environment } from '../../environments/environment';
 
 
 @Component({
-  selector: 'app-debt-register',
-  templateUrl: './debt-register.component.html',
-  styleUrls: ['./debt-register.component.scss']
+  selector: 'app-manager',
+  templateUrl: './manager.component.html',
+  styleUrls: ['./manager.component.scss']
 })
-export class DebtRegisterComponent implements OnInit, OnDestroy {
+export class ManagerComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   loadingSqs: boolean = false;
   loadingTopics: boolean = false;
