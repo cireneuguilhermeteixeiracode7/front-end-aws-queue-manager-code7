@@ -1,0 +1,253 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+
+          <div class="col-md-5">
+            <div class="card card-profile">
+                
+                <div class="card-body card-left" *ngIf="currentSelected=='topic'">
+                    
+                    <h4 class="card-category text-gray">Tópicos</h4>
+                    <div class="row center" *ngIf="loadingTopics">
+                      <mat-spinner>
+                      </mat-spinner>
+                      </div>
+                      <div *ngIf="topics.length == 0">
+                        <h6 class="card-category text-gray">Sem tópicos no momento</h6>
+                      </div>
+                      <div class="alert alert-info" *ngFor="let topic of topics">
+                          
+                        
+                          <span style="cursor: pointer" >
+                              <strong> TopicArn:  {{topic.TopicArn}} </strong> 
+                          </span>
+                      </div>
+
+                  </div>
+
+                  <div class="card-body card-right" *ngIf="currentSelected=='queue'">
+                    
+                    <h4 class="card-category text-gray">Filas SQS</h4>
+                    <div class="row center" *ngIf="loadingSqs">
+                      <mat-spinner>
+                      </mat-spinner>
+                    </div>
+                    <div *ngIf="queue.length == 0">
+                      <h6 class="card-category text-gray">Sem fila no momento</h6>
+                    </div>
+                    <div class="alert alert-success" *ngFor="let url of queue">
+                        
+                        
+                        <span style="cursor: pointer" >
+                            <strong> Url:  {{url}} </strong> 
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="card-body card-right" *ngIf="currentSelected=='topicSubscription'">
+                    
+                  <h4 class="card-category text-gray">Topicos e assinaturas</h4>
+                  <div class="row center" *ngIf="loadingSqs">
+                    <mat-spinner>
+                    </mat-spinner>
+                  </div>
+                  <div *ngIf="queue.length == 0">
+                    <h6 class="card-category text-gray">Sem tópico</h6>
+                  </div>
+                  <div class="alert alert-danger" *ngFor="let topic of topicSubscription">
+                      
+                      
+                      <span style="cursor: pointer" >
+                          <strong> Tópico:  {{topic.TopicArn}} </strong>
+                          <ul>
+                            <li *ngFor="let sub of topic.Subscriptions">
+                              {{sub.Protocol}}: {{sub.Endpoint}}
+                            </li>
+                          </ul>
+                      </span>
+                  </div>
+              </div>
+
+            </div>
+        </div>
+
+          <div class="col-md-7">
+            <div class="card">
+              <div class="card-header card-header-tabs card-header-primary">
+                  <div class="nav-tabs-navigation">
+                      <div class="nav-tabs-wrapper">
+                        
+                          <ul class="nav nav-tabs" data-tabs="tabs">
+                              <li class="nav-item" (click)="getTopics()">
+                                  <a mat-button class="nav-link active" href="#sns" data-toggle="tab">
+                                      <i class="material-icons"></i> SNS
+                                      <div class="ripple-container"></div>
+                                  </a>
+                              </li>
+                              <li class="nav-item" (click)="getSqs()">
+                                  <a mat-button class="nav-link" href="#sqs" data-toggle="tab">
+                                      <i class="material-icons"></i> SQS
+                                      <div class="ripple-container"></div>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                <a mat-button class="nav-link" (click)="getTopicSubscriptions()" href="#sub" data-toggle="tab">
+                                    <i class="material-icons"></i> Inscrever fila no Tópico
+                                    <div class="ripple-container"></div>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                              <a mat-button class="nav-link" (click)="getTopics()" href="#pub" data-toggle="tab">
+                                  <i class="material-icons"></i> Enviar Mensagem
+                                  <div class="ripple-container"></div>
+                              </a>
+                          </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              
+
+
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="sns">
+                    <form [formGroup]="snsForm">
+                      <div class="row">
+                          <div class="col-md-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput formControlName="name" placeholder="Nome do Tópico" type="text">
+                            </mat-form-field>
+                          </div>
+                      </div>
+              
+                      <button  [disabled]="!snsForm.valid || savingOrUpdating" (click)="saveTopic()" mat-raised-button type="submit" class="btn btn-danger pull-right">Salvar Tópico</button>                          
+                      <div class="clearfix"></div>
+                    </form>
+                        
+                  </div>
+
+                  <div class="tab-pane" id="sqs">
+                    <form [formGroup]="sqsForm">
+                      <div class="row">
+                          <div class="col-md-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput formControlName="name" placeholder="Nome da Fila SQS" type="text">
+                            </mat-form-field>
+                          </div>
+                      </div>
+              
+                      <button  [disabled]="!sqsForm.valid || savingOrUpdating" (click)="saveSqs()" mat-raised-button type="submit" class="btn btn-danger pull-right">Salvar Fila</button>                          
+                      <div class="clearfix"></div>
+                    </form>
+                        
+                  </div>
+
+                  <div class="tab-pane" id="sub">
+                    <form [formGroup]="subForm">
+                      <div class="row">
+                          <div class="col-md-12">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Tópico ARN</mat-label>
+                              <mat-select formControlName="TopicArn">
+                                <mat-option *ngFor="let topic of topics" [value]="topic.TopicArn">
+                                  {{topic.TopicArn}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Url SQS</mat-label>
+                            <mat-select formControlName="queueArn">
+                              <mat-option *ngFor="let url of queue" [value]="url">
+                                {{ url }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+              
+                      <button  [disabled]="!subForm.valid || savingOrUpdating" (click)="subToTopic()" mat-raised-button type="submit" class="btn btn-danger pull-right">Fazer assinatura</button>                          
+                      <div class="clearfix"></div>
+                    </form>
+                        
+                  </div>
+
+
+                  <div class="tab-pane" id="pub">
+                    <form [formGroup]="pubForm">
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Tópico ARN</mat-label>
+                            <mat-select formControlName="TopicArn">
+                              <mat-option  *ngFor="let topic of topics" [value]="topic.TopicArn">
+                                {{topic.TopicArn}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+
+                      <div class="row">
+                          <div class="col-md-12">
+                            <mat-form-field class="example-full-width">
+                              <textarea matInput formControlName="Message" placeholder="Mensagem a ser enviada" type="text"></textarea>
+                            </mat-form-field>
+                          </div>
+                      </div>
+              
+                      <button  [disabled]="!pubForm.valid || savingOrUpdating" (click)="pubToTopic()" mat-raised-button type="submit" class="btn btn-danger pull-right">Enviar Mensagem</button>                          
+                      <div class="clearfix"></div>
+                    </form>
+                        
+                  </div>
+
+                   
+                </div>  
+              </div>
+
+
+
+            </div>
+
+            <div class="card card-profile">
+                
+              <div class="card-body card-bottom">
+                  
+                  <h4 class="card-category text-gray">Console Socket(Topico teste_code7.fifo)</h4>
+
+                  <div  style="text-align: left;">
+                    <a mat-button >
+                      <i class="material-icons">trash</i> Limpar Console
+                      <div class="ripple-container"></div>
+                  </a>
+                  </div>
+                  <div class="body-console" style="text-align: left;">
+                    <p *ngFor="let message of messagesFromSocket">
+                     > {{message}}
+                    </p>
+                  </div>
+                  <!-- <div class="row center">
+                    <mat-spinner>
+                    </mat-spinner>
+                  </div> -->
+                   
+                   
+              </div>
+
+            </div>
+            
+          </div>
+         
+      </div>
+  </div>
+</div>
