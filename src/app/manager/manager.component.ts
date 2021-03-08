@@ -122,6 +122,7 @@ export class ManagerComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao se comunicar com o servidor', 'Ops!')       
     })    
     .then(()=>this.loadingTopics=false)
+    .then(()=>this.getSqs())
   }
 
 
@@ -246,7 +247,24 @@ export class ManagerComponent implements OnInit, OnDestroy {
 
   subToTopic(){
     this.savingOrUpdating = true;
-    let subFormToSend = this.subForm.value;
+    let subFormToSend = {
+      TopicArn: this.subForm.value.TopicArn,
+      queueArn: this.subForm.value.queueArn
+    }
+    let topicArn = subFormToSend.TopicArn;
+
+    let queueArn = topicArn.replace(
+      subFormToSend.TopicArn.split(':')[5],
+      subFormToSend.queueArn.split('/')[subFormToSend.queueArn.split('/').length-1]  
+      );
+    
+    queueArn = queueArn.replace(
+      queueArn.split(':')[2],
+      'sqs'  
+    );    
+    subFormToSend.queueArn = queueArn
+    
+    console.log(subFormToSend);
     this.sns_sqsProvider.subscriptTopic(subFormToSend)
     .then(resp=>{
       console.log(resp);

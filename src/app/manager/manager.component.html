@@ -55,7 +55,7 @@
                   <div *ngIf="queue.length == 0">
                     <h6 class="card-category text-gray">Sem tópico</h6>
                   </div>
-                  <div class="alert alert-danger" *ngFor="let topic of topicSubscription">
+                  <div class="alert alert-warning" *ngFor="let topic of topicSubscription">
                       
                       
                       <span style="cursor: pointer" >
@@ -68,6 +68,32 @@
                       </span>
                   </div>
               </div>
+
+              <div class="card-body card-right" *ngIf="currentSelected=='publish'">
+                  
+                <h4 class="card-category text-gray">Console Socket(Topico teste_code7.fifo)</h4>
+
+                <div  style="text-align: left;">
+                  <a mat-button >
+                    <i class="material-icons">trash</i> Limpar Console
+                    <div class="ripple-container"></div>
+                </a>
+                </div>
+                <div class="body-console" style="text-align: left;">
+                  <p *ngFor="let message of messagesFromSocket">
+                   > {{message}}
+                  </p>
+                </div>
+                <!-- <div class="row center">
+                  <mat-spinner>
+                  </mat-spinner>
+                </div> -->
+                 
+                 
+            </div>
+
+
+
 
             </div>
         </div>
@@ -99,7 +125,7 @@
                             </li>
 
                             <li class="nav-item">
-                              <a mat-button class="nav-link" (click)="getTopics()" href="#pub" data-toggle="tab">
+                              <a mat-button class="nav-link" (click)="currentSelected = 'publish'" href="#pub" data-toggle="tab">
                                   <i class="material-icons"></i> Enviar Mensagem
                                   <div class="ripple-container"></div>
                               </a>
@@ -221,28 +247,7 @@
 
             <div class="card card-profile">
                 
-              <div class="card-body card-bottom">
-                  
-                  <h4 class="card-category text-gray">Console Socket(Topico teste_code7.fifo)</h4>
-
-                  <div  style="text-align: left;">
-                    <a mat-button >
-                      <i class="material-icons">trash</i> Limpar Console
-                      <div class="ripple-container"></div>
-                  </a>
-                  </div>
-                  <div class="body-console" style="text-align: left;">
-                    <p *ngFor="let message of messagesFromSocket">
-                     > {{message}}
-                    </p>
-                  </div>
-                  <!-- <div class="row center">
-                    <mat-spinner>
-                    </mat-spinner>
-                  </div> -->
-                   
-                   
-              </div>
+           
 
             </div>
             
