@@ -55,18 +55,23 @@
                   <div *ngIf="queue.length == 0">
                     <h6 class="card-category text-gray">Sem tópico</h6>
                   </div>
-                  <div class="alert alert-warning" *ngFor="let topic of topicSubscription">
-                      
-                      
-                      <span style="cursor: pointer" >
-                          <strong> Tópico:  {{topic.TopicArn}} </strong>
-                          <ul>
-                            <li *ngFor="let sub of topic.Subscriptions">
-                              {{sub.Protocol}}: {{sub.Endpoint}}
-                            </li>
-                          </ul>
-                      </span>
+
+                  <div *ngFor="let topic of topicSubscription">
+
+                  
+                    <div class="alert alert-warning">
+                        <span style="cursor: pointer" >
+                            <strong> Tópico:  {{topic.TopicArn}} </strong>
+                        </span>
+                    </div>
+
+                    <ul style="list-style:none; text-align: left; font-size: 14px;">
+                      <li style="padding-top:5px; margin-left: -20px; font-weight: 600;" *ngFor="let sub of topic.Subscriptions">
+                        - {{sub.Protocol}}: {{sub.Endpoint}}
+                      </li>
+                    </ul>
                   </div>
+                  
               </div>
 
               <div class="card-body card-right" *ngIf="currentSelected=='publish'">
@@ -199,6 +204,16 @@
                         </div>
                       </div>
               
+                      
+                      <button  
+                        [disabled]="!subForm.valid || savingOrUpdating"
+                        (click)="setFilterPolicyAttribute()"
+                        mat-raised-button
+                        type="submit"
+                        class="btn btn-danger pull-right">
+                        Editar Política de filtro
+                      </button>                          
+
                       <button  [disabled]="!subForm.valid || savingOrUpdating" (click)="subToTopic()" mat-raised-button type="submit" class="btn btn-danger pull-right">Fazer assinatura</button>                          
                       <div class="clearfix"></div>
                     </form>

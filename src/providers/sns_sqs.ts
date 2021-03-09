@@ -78,38 +78,13 @@ export class SNSSQSProvider {
         });
     }
 
-    getDebtById(debtId: String){
-        return this.http.get(this.config.apiUrl + '/debt/'+debtId)
-        .toPromise()
-        .then(resp=>{
-            return resp;
-        });
-
-    }
-
-
-    createDebt(debt: Debt){
-        return this.http.post(this.config.apiUrl + '/debt',debt)
+    setFilterPolicyAttribute(obj){
+        return this.http.post(this.config.apiUrl + '/sns/topic/sub/filter_policity',obj)
         .toPromise()
         .then(resp=>{
             return resp;
         });
     }
-
-    updateDebt(debt: Debt){
-        return this.http.put(this.config.apiUrl + '/debt',debt)
-        .toPromise()
-        .then(resp=>{
-            return resp;
-        });
-    }
-
-    deleteDebt(debtId: String){
-        return this.http.delete(this.config.apiUrl + '/debt/' + debtId)
-        .toPromise()
-        .then(resp=>{
-            return resp;
-        });
-    }
+  
 
 }

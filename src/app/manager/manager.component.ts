@@ -104,7 +104,6 @@ export class ManagerComponent implements OnInit, OnDestroy {
 
   getTopics(){
     this.topics = [];  
-    this.currentSelected = 'topic';
     this.loadingTopics = true;
     this.sns_sqsProvider.getTopics()
     .then(resp=>{
@@ -123,6 +122,8 @@ export class ManagerComponent implements OnInit, OnDestroy {
     })    
     .then(()=>this.loadingTopics=false)
     .then(()=>this.getSqs())
+    .then(()=>this.currentSelected = 'topic')
+
   }
 
 
@@ -142,7 +143,6 @@ export class ManagerComponent implements OnInit, OnDestroy {
           Subscriptions: val['data']['Subscriptions']
         });
       });   
-      console.log(this.topicSubscription);
       
     });
 
@@ -245,6 +245,38 @@ export class ManagerComponent implements OnInit, OnDestroy {
   }
 
 
+
+  setFilterPolicyAttribute(){
+    this.savingOrUpdating = true;
+    let obj = {
+      SubscriptionArn: this.topicSubscription[0]['Subscriptions'][0]['SubscriptionArn'],
+      attributeValue: {
+        filter_id_changed: ['1','2']
+      }
+    };
+    console.log(obj);
+    
+    this.sns_sqsProvider.setFilterPolicyAttribute(obj)
+    .then(resp=>{
+      console.log(resp);
+      
+      if(resp['success']==true){
+        this.toastr.success('Fila salva com sucesso.');
+        this.getSqs();
+        this.sqsForm.reset();
+      }else if(resp['success']== false){
+          this.toastr.warning(resp['data']['message']);
+          throw(resp);
+      }         
+    }).catch( error => {
+        console.log('erro: ' +  error);
+        this.toastr.error('Erro ao se comunicar com o servidor', 'Ops!')       
+    })
+    .then(()=>this.savingOrUpdating=false)
+
+  }
+
+
   subToTopic(){
     this.savingOrUpdating = true;
     let subFormToSend = {
@@ -256,14 +288,15 @@ export class ManagerComponent implements OnInit, OnDestroy {
     let queueArn = topicArn.replace(
       subFormToSend.TopicArn.split(':')[5],
       subFormToSend.queueArn.split('/')[subFormToSend.queueArn.split('/').length-1]  
-      );
+    );
     
     queueArn = queueArn.replace(
       queueArn.split(':')[2],
       'sqs'  
-    );    
+    );
     subFormToSend.queueArn = queueArn
-    
+    subFormToSend['QueueUrl'] = this.subForm.value.queueArn
+
     console.log(subFormToSend);
     this.sns_sqsProvider.subscriptTopic(subFormToSend)
     .then(resp=>{
@@ -272,7 +305,6 @@ export class ManagerComponent implements OnInit, OnDestroy {
       if(resp['success']==true){
         this.toastr.success('Topico assinado com sucesso.');
         // this.getSqs();
-        this.subForm.reset();
       }else if(resp['success']== false){
           this.toastr.warning(resp['data']['message']);
           throw(resp);
@@ -281,7 +313,8 @@ export class ManagerComponent implements OnInit, OnDestroy {
         console.log('erro: ' +  error);
         this.toastr.error('Erro ao se comunicar com o servidor', 'Ops!')       
     })
-    .then(()=>this.savingOrUpdating=false)
+    .then(()=> this.subForm.reset())
+    .then(()=> this.savingOrUpdating=false)
 
   }
 
