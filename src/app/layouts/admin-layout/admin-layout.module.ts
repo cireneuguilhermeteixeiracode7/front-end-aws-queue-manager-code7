@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { ManagerComponent } from '../../manager/manager.component';
-import { ClientsComponent } from '../../clients/clients.component';
+import { CargaComponent } from '../../carga/carga.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
@@ -41,7 +41,7 @@ import { WebsocketProvider } from '../../../providers/websocket';
   ],
   declarations: [
     ManagerComponent,
-    ClientsComponent,
+    CargaComponent,
   ],
   providers: [
     ClientProvider,

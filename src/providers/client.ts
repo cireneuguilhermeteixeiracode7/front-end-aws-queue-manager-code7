@@ -15,8 +15,8 @@ export class ClientProvider {
     ){}
 
 
-    getClients(){
-        return this.http.get(this.config.apiUrl + '/client/')
+    getCarga(){
+        return this.http.get(this.config.apiUrl + '/carga/')
         .toPromise()
         .then(resp=>{
             return resp;

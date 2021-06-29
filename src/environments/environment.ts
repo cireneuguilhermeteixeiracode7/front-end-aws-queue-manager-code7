@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
-  wsUrl : 'wss://234pgliu3m.execute-api.sa-east-1.amazonaws.com/production'
+  // wsUrl : 'wss://234pgliu3m.execute-api.sa-east-1.amazonaws.com/production'
+  wsUrl: 'wss://rp14k0xlxl.execute-api.sa-east-1.amazonaws.com/dev'
 };

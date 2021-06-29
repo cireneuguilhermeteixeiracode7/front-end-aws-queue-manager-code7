@@ -9,7 +9,8 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
     { path: '/aws', title: 'AWS',  icon:'library_books', class: '' },
-    // { path: '/clients', title: 'Clientes',  icon:'persons', class: '' },
+
+    { path: '/carga', title: 'Dados Carga',  icon:'persons', class: '' },
     // { path: '/login', title: 'Logout',  icon:'unarchive', class: 'active-pro' },
 ];
 

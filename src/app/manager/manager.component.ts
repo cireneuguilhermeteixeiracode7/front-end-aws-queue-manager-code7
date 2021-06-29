@@ -58,7 +58,7 @@ export class ManagerComponent implements OnInit, OnDestroy {
   connectToApiGateway(){
     this.subscription = this.websocket.connect(this.url)
       .subscribe(message =>{
-        console.log(message['data'] );
+        console.log(message);
         this.messagesFromSocket.push(message['data']);
         
     },error=>{

@@ -1,0 +1,268 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          
+            <div class="col-md-6">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title ">Loads</h4>
+                  </div>
+                  <div class="card-body">
+
+                    
+                      <div class="table-responsive">
+                         
+                        <div class="row center" *ngIf="loadingClients">
+                            <mat-spinner>
+                            </mat-spinner>
+                        </div>
+
+                        <table class="table" *ngIf="!loadingClients">
+
+                              <thead class=" text-primary">
+                                  <th>
+                                      id_flow
+                                  </th>
+                                  <th>
+                                      api_key
+                                  </th>
+                                  <th>
+                                     register
+                                  </th>
+                                  <th>
+                                      active
+                                  </th>
+                                 
+                                   
+                                    <th>
+                                        updated_at
+                                    </th>
+                              </thead>
+                              <tbody>
+                                  
+                                  <tr *ngFor="let load of loads">
+                                      <td>
+                                          {{load.id_flow}}
+                                      </td>
+                                      <td>
+                                        {{load.api_key}}
+
+                                    </td>
+                                      <td>
+                                          {{load.register}}
+                                      </td>
+                                      <td>
+                                          {{load.active}}
+                                      </td>
+                                      
+                                    <td>
+                                        {{load.updated_at}}
+                                    </td>
+
+                                      
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+                <div class="card-header card-header-danger">
+                    <h4 class="card-title ">Queues</h4>
+                </div>
+                <div class="card-body">
+
+                  
+                    <div class="table-responsive">
+                       
+                      <div class="row center" *ngIf="loadingClients">
+                          <mat-spinner>
+                          </mat-spinner>
+                      </div>
+
+                      <table class="table" *ngIf="!loadingClients">
+
+                            <thead class=" text-primary">
+                                <th>
+                                    id_load
+                                </th>
+                                <th>
+                                    schedule
+                                </th>
+                                <th>
+                                   state
+                                </th>
+                                <th>
+                                    active
+                                </th>
+                                <th>
+                                    updated_at
+                                </th>
+                               
+
+                                
+                            </thead>
+                            <tbody>
+                                
+                                <tr *ngFor="let queue of queues">
+                                    <td>
+                                        {{queue.id_load}}
+                                    </td>
+                                    <td>
+                                      {{queue.schedule}}
+
+                                  </td>
+                                    <td>
+                                        {{queue.state}}
+                                    </td>
+                                    <td>
+                                        {{queue.active}}
+                                    </td>
+                                    <td>
+                                        {{queue.updated_at}}
+                                    </td>
+
+                                 
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+          
+        <div class="col-md-6">
+          <div class="card">
+              <div class="card-header card-header-danger">
+                  <h4 class="card-title ">contacts</h4>
+              </div>
+              <div class="card-body">
+
+                
+                  <div class="table-responsive">
+                     
+                    <div class="row center" *ngIf="loadingClients">
+                        <mat-spinner>
+                        </mat-spinner>
+                    </div>
+
+                    <table class="table" *ngIf="!loadingClients">
+
+                          <thead class=" text-primary">
+                              <th>
+                                  id_load
+                              </th>
+                              <th>
+                                  name
+                              </th>
+                              <th>
+                                state
+                              </th>
+                              <th>
+                                updated_at
+                              </th>
+                             
+                          </thead>
+                          <tbody>
+                              
+                              <tr *ngFor="let contact of contacts">
+                                  <td>
+                                      {{contact.id_load}}
+                                  </td>
+                                  <td>
+                                    {{contact.name}}
+
+                                </td>
+                                  <td>
+                                      {{contact.state}}
+                                  </td>
+                                  <td>
+                                      {{contact.updated_at}}
+                                  </td>
+                    
+                                  
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+            <div class="card-header card-header-danger">
+                <h4 class="card-title ">queue_contact</h4>
+            </div>
+            <div class="card-body">
+
+              
+                <div class="table-responsive">
+                   
+                  <div class="row center" *ngIf="loadingClients">
+                      <mat-spinner>
+                      </mat-spinner>
+                  </div>
+
+                  <table class="table" *ngIf="!loadingClients">
+
+                        <thead class=" text-primary">
+                            <th>
+                                api_key
+                            </th>
+                            <th>
+                                id_contact_data
+                            </th>
+                            <th>
+                                event_type
+                            </th>
+                            <th>
+                                data_type
+                            </th>
+
+                            <th>
+                                state
+                            </th>
+                           
+                            
+                        </thead>
+                        <tbody>
+                            
+                            <tr *ngFor="let queue_contact of queue_contacts">
+                                <td>
+                                    {{queue_contact.api_key}}
+                                </td>
+                                <td>
+                                  {{queue_contact.id_contact_data}}
+
+                              </td>
+                                <td>
+                                    {{queue_contact.event_type}}
+                                </td>
+                                <td>
+                                    {{queue_contact.data_type}}
+                                </td>
+                                <td>
+                                    {{queue_contact.state}}
+                                </td>
+
+                               
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  </div>
+</div>
